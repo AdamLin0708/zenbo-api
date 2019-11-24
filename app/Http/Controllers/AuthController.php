@@ -34,6 +34,7 @@ class AuthController extends Controller
 
         if($output['status'] == 'success'){
             $output['data']['token'] = self::genUserToken($output['data']['user']);
+            AuthRepo::updateToken($output['data']['user'], $output['data']['token']);
         }
 
         return $output['data']['token'];

@@ -63,6 +63,16 @@ class AuthRepo
         return successResponse(null, $data);
     }
 
+    public static function updateToken($user, $token){
+
+        $oldUser = User::where('user_id', $user->user_id);
+        $oldUser->device_token = $token;
+        $user->whocol(null, null, $user->user_id, date('Y-m-d H:i:s'));
+        $user->save();
+
+        return;
+    }
+
     public static function login($basicInfo){
 
     }

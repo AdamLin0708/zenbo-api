@@ -37,8 +37,9 @@ class VideoRepo
         return successResponse(null, $video);
     }
 
-    public static function getVideoDetail($video_specific_id, $user){
+    public static function getVideoDetail($request, $user){
 
+        $video_specific_id = $request['video_specific_id'];
 
         $output = array();
 

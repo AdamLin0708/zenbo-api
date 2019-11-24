@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entity\usr\User;
 use App\Repository\VideoRepo;
 
 use App\Http\Controllers\Controller;
@@ -21,11 +22,13 @@ class VideoController extends Controller
 
     public function getVideoDetail(){
 
-        $user = JWTAuth::parseToken()->toUser();
+        $request = Request::all();
 
-        $video_specific_id = Request::all();
+        $token = $request['token'];
 
-        $output = VideoRepo::getVideoDetail($video_specific_id, $user);
+        $user = User::where('device_token', $token)->first();
+
+        $output = VideoRepo::getVideoDetail($request, $user);
 
         return $output;
     }

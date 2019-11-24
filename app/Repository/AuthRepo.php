@@ -65,7 +65,7 @@ class AuthRepo
 
     public static function updateToken($user, $token){
 
-        $oldUser = User::where('user_id', $user->user_id);
+        $oldUser = User::where('user_id', $user->user_id)->first();
         $oldUser->device_token = $token;
         $oldUser->whocol(null, null, $user->user_id, date('Y-m-d H:i:s'));
         $oldUser->save();

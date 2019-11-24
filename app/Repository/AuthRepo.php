@@ -67,8 +67,8 @@ class AuthRepo
 
         $oldUser = User::where('user_id', $user->user_id);
         $oldUser->device_token = $token;
-        $user->whocol(null, null, $user->user_id, date('Y-m-d H:i:s'));
-        $user->save();
+        $oldUser->whocol(null, null, $user->user_id, date('Y-m-d H:i:s'));
+        $oldUser->save();
 
         return;
     }

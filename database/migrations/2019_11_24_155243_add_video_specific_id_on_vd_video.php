@@ -13,7 +13,7 @@ class AddVideoSpecificIdOnVdVideo extends Migration
     public function up()
     {
         Schema::table('vd_video', function (Blueprint $table) {
-            $table->integer('video_specific_id')->nullable();
+            $table->string('video_specific_id', 80)->nullable();
         });
     }
 

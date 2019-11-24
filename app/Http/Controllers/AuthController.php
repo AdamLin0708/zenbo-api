@@ -36,7 +36,7 @@ class AuthController extends Controller
             $output['data']['token'] = self::genUserToken($output['data']['user']);
         }
 
-        return successResponse(null, $output);
+        return $output['data']['token'];
     }
 
     public function login(){
@@ -59,9 +59,7 @@ class AuthController extends Controller
         $data['user_id'] = $user->user_id;
         $data['token'] = $token;
 
-        $output = successResponse(null, $data);
-
-        return $output;
+        return $token;
     }
 
 

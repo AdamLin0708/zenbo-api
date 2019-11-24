@@ -21,7 +21,8 @@ select
 	vd_video.video_id,
 	vd_video.name as video_name,
 	vd_video.description as video_description,
-	vd_video.url_link as video_url_link
+	vd_video.url_link as video_url_link,
+	vd_video.video_specific_id
 from vd_video
 EOF;
 

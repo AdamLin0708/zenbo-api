@@ -37,14 +37,18 @@ class VideoRepo
         return successResponse(null, $video);
     }
 
-    public static function getVideoDetail($video_id, $user){
+    public static function getVideoDetail($video_specific_id, $user){
 
 
         $output = array();
 
         $video = DB::table('vd_video_zv')
-            ->where('video_id', $video_id)
+            ->where('video_specific_id', $video_specific_id)
             ->first();
+
+        $video_id = DB::table('vd_video_zv')
+            ->where('video_specific_id', $video_specific_id)
+            ->pluck('video_id');
 
         //測驗題
         $quiz_user_lists = DB::table('vd_quiz_user_zv')

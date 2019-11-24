@@ -23,9 +23,9 @@ class VideoController extends Controller
 
         $user = JWTAuth::parseToken()->toUser();
 
-        $video_id = Request::all();
+        $video_specific_id = Request::all();
 
-        $output = VideoRepo::getVideoDetail($video_id, $user);
+        $output = VideoRepo::getVideoDetail($video_specific_id, $user);
 
         return $output;
     }

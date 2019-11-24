@@ -47,17 +47,17 @@ class VideoRepo
             ->where('video_specific_id', $video_specific_id)
             ->first();
 
-        $video_id = DB::table('vd_video_zv')
-            ->where('video_specific_id', $video_specific_id)
-            ->pluck('video_id');
-
-        //測驗題
-        $quiz_user_lists = DB::table('vd_quiz_user_zv')
-            ->where('video_id', $video_id)
-            ->where('user_id', $user->user_id)
-            ->get();
-
-        $video->quiz_user_lists = $quiz_user_lists;
+//        $video_id = DB::table('vd_video_zv')
+//            ->where('video_specific_id', $video_specific_id)
+//            ->pluck('video_id');
+//
+//        //測驗題
+//        $quiz_user_lists = DB::table('vd_quiz_user_zv')
+//            ->where('video_id', $video_id)
+//            ->where('user_id', $user->user_id)
+//            ->get();
+//
+//        $video->quiz_user_lists = $quiz_user_lists;
 
         $output['video'] = $video;
 

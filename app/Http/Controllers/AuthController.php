@@ -36,8 +36,6 @@ class AuthController extends Controller
             $output['data']['token'] = self::genUserToken($output['data']['user']);
         }
 
-        Log::info($output);
-
         return successResponse(null, $output);
     }
 
@@ -54,6 +52,8 @@ class AuthController extends Controller
         \Illuminate\Support\Facades\Auth::once($loginCredential);
 
         $user = \Illuminate\Support\Facades\Auth::user();
+
+        Log::info($user);
 
         $data = array();
         $data['user_id'] = $user->user_id;

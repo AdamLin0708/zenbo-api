@@ -55,7 +55,7 @@ class AuthController extends Controller
         $user = \Illuminate\Support\Facades\Auth::user();
 
         if(empty($user)){
-            return $token;
+            return "";
         }
 
         $data = array();

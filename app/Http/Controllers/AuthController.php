@@ -54,7 +54,9 @@ class AuthController extends Controller
 
         $user = \Illuminate\Support\Facades\Auth::user();
 
-        Log::info($user);
+        if(empty($user)){
+            return $token;
+        }
 
         $data = array();
         $data['user_id'] = $user->user_id;

@@ -34,6 +34,8 @@ class AuthRepo
 
         $email = $basicInfo['email'];
         $password = $basicInfo['password'];
+        $age = $basicInfo['age'];
+        $gender = $basicInfo['gender'];
 
         $start_time = microtime(true);
         DB::beginTransaction();
@@ -43,6 +45,8 @@ class AuthRepo
         $user->email_login = $email;
         $user->password_encrypted = Hash::make($password);
         $user->user_type_code_abbr = 'ZAPP';
+        $user->age = $age;
+        $user->gender = $gender;
 
         // update device related info on usr_user table
         $user->platform = isset($basicInfo['platform']) ? $basicInfo['platform']: null;

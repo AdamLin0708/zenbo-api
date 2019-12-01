@@ -30,6 +30,10 @@ class AuthController extends Controller
 
         $credential = Request::all();
 
+        if(empty($credential['password']) || empty($credential['email']) || empty($credential['age']) || empty($credential['gender'])){
+            return "";
+        }
+
         $output = AuthRepo::register($credential);
 
         if($output['status'] == 'success'){

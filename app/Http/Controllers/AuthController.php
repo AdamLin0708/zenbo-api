@@ -57,19 +57,29 @@ class AuthController extends Controller
         {
             $user = Auth::user();
 
+            Log::info($user);
+
             if(empty($user)){
+                Log::info('here');
                 return "";
             }
 
             if($user->user_type_code_abbr == 'ZAPP'){
 
+                Log::info('here123');
+
+                Log::info($user->device_token);
                 $token = JWTAuth::fromUser($user);
+
+                Log::info($token);
 
                 DB::table('usr_user')->where('user_id', $user->user_id)->update([
                     'device_token' => $token,
                     'updated_at' => date('Y-m-d H:i:s'),
                     'updated_by' => $user->user_id
                 ]);
+
+                Log::info($user->device_token);
 
                 $data = array();
                 $data['user_id'] = $user->user_id;

@@ -6,6 +6,7 @@ use App\Entity\usr\User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repository\AuthRepo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
@@ -52,21 +53,41 @@ class AuthController extends Controller
         $loginCredential['email_login'] = $credential['email'];
         $loginCredential['password'] = $credential['password'];
 
-        $token = JWTAuth::attempt($loginCredential);
+        if (Auth::attempt(['email_login' => $loginCredential['email_login'], 'password' => $loginCredential['password']))
+        {
+            $user = Auth::user();
 
-        \Illuminate\Support\Facades\Auth::once($loginCredential);
+            if(empty($user)){
+                return "";
+            }
 
-        $user = \Illuminate\Support\Facades\Auth::user();
+            if($user->user_type_code_abbr == 'ZAPP'){
 
-        if(empty($user)){
-            return "";
+                $token = JWTAuth::fromUser($user);
+
+                DB::table('usr_user')->where('user_id', $user->user_id)->update([
+                    'device_token' => $token,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                    'updated_by' => $user->user_id
+                ]);
+
+                $data = array();
+                $data['user_id'] = $user->user_id;
+                $data['token'] = $token;
+
+                return $token;
+            } else {
+
+                return "";
+            }
+
         }
 
-        $data = array();
-        $data['user_id'] = $user->user_id;
-        $data['token'] = $token;
+        return "";
 
-        return $token;
+
+
+
     }
 
 

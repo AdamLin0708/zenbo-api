@@ -53,7 +53,7 @@ class AuthController extends Controller
         $loginCredential['email_login'] = $credential['email'];
         $loginCredential['password'] = $credential['password'];
 
-        if (Auth::attempt(['email_login' => $loginCredential['email_login'], 'password' => $loginCredential['password']))
+        if (Auth::attempt(['email_login' => $loginCredential['email_login'], 'password' => $loginCredential['password']]))
         {
             $user = Auth::user();
 

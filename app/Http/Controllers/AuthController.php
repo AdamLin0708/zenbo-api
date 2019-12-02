@@ -79,7 +79,9 @@ class AuthController extends Controller
                     'updated_by' => $user->user_id
                 ]);
 
-                Log::info($user->device_token);
+                $newUser = DB::table('usr_user')->where('user_id', $user->user_id)->first();
+
+                Log::info($newUser->device_token);
 
                 $data = array();
                 $data['user_id'] = $user->user_id;

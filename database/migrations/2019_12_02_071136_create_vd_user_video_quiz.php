@@ -15,7 +15,7 @@ class CreateVdUserVideoQuiz extends Migration
         Schema::create('vd_user_video_quiz', function (Blueprint $table) {
             $table->integer('user_video_quiz_id', true, false);
             $table->integer('user_id')->nullable();
-            $table->integer('video_specific_id')->nullable();
+            $table->string('video_specific_id', 80)->nullable();
             $table->integer('quiz_id')->nullable();
             $table->integer('answer_id')->nullable();
             $table->boolean('correct_flag')->nullable();

@@ -74,7 +74,7 @@ class AuthController extends Controller
                 ]);
 
                 $newUser = DB::table('usr_user')->where('user_id', $user->user_id)->first();
-                
+
                 return $newUser->device_token;
             } else {
 

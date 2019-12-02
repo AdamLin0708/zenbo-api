@@ -42,7 +42,9 @@ class AuthController extends Controller
             AuthRepo::updateToken($output['data']['user'], $output['data']['token']);
         }
 
-        return $output['data']['token'];
+        $newUser = $output['data']['user'];
+
+        return $newUser->device_token;
     }
 
     public function login(){
@@ -57,21 +59,13 @@ class AuthController extends Controller
         {
             $user = Auth::user();
 
-            Log::info($user);
-
             if(empty($user)){
-                Log::info('here');
                 return "";
             }
 
             if($user->user_type_code_abbr == 'ZAPP'){
 
-                Log::info('here123');
-
-                Log::info($user->device_token);
                 $token = JWTAuth::fromUser($user);
-
-                Log::info($token);
 
                 DB::table('usr_user')->where('user_id', $user->user_id)->update([
                     'device_token' => $token,
@@ -81,11 +75,9 @@ class AuthController extends Controller
 
                 $newUser = DB::table('usr_user')->where('user_id', $user->user_id)->first();
 
-                Log::info($newUser->device_token);
-
                 $data = array();
                 $data['user_id'] = $user->user_id;
-                $data['token'] = $token;
+                $data['token'] = $newUser->device_token;
 
                 return $token;
             } else {

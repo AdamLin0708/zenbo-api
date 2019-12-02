@@ -104,7 +104,6 @@ class VideoRepo
             ->where('video_specific_id', $video_specific_id)
             ->where('user_id', $user->user_id)
             ->where('quiz_id', $quiz_id)
-            ->where('answer_id', $answer_id)
             ->get();
 
         if(!empty($check)) {

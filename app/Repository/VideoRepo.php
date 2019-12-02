@@ -111,8 +111,8 @@ class VideoRepo
             DB::table('vd_user_video_quiz')->where('video_specific_id', $video_specific_id)
                 ->where('user_id', $user->user_id)
                 ->where('quiz_id', $quiz_id)
-                ->where('answer_id', $answer_id)
                 ->update([
+                    'answer_id' => $answer_id,
                     'correct_flag' => $correct_flag == "true" ? true : false,
                     'updated_at' => date('Y-m-d H:i:s'),
                     'updated_by' => $user->user_id,

@@ -89,46 +89,50 @@ class VideoRepo
         return successResponse(null, $output);
     }
 
-    public static function submitVideoQuiz($request, $user){
+    public static function submitVideoQuiz($request){
 
-        $video_id = $request['video_id'];
-        $answers = $request['answers'];
+        $token = $request['token'];
+        $video_specific_id = $request['video_specific_id'];
+        $quiz_id = $request['quiz_id'];
+        $answer_id = $request['answer_id'];
+        $correct_flag = $request['correct_flag'];
 
-        foreach ($answers as $key => $answer){
-            $split = explode('_', $key);
-            $quiz_id = $split[1];
-            $quiz_answer_id = $answer;
+        $user = User::where('device_token', $token)->first();
 
 
-            DB::table('vd_quiz_user')->insert([
-                'user_id' => $user->user_id,
-                'quiz_id' => $quiz_id,
-                'quiz_answer_id' => $quiz_answer_id,
-                'created_by' => $user->user_id,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_by' => $user->user_id,
-                'updated_at' => date('Y-m-d H:i:s')
-            ]);
-
-        }
-
-        $output = array();
-
-        $video = DB::table('vd_video_zv')
-            ->where('video_id', $video_id)
-            ->first();
-
-        //測驗題
-        $quiz_user_lists = DB::table('vd_quiz_user_zv')
-            ->where('video_id', $video_id)
+        $check = DB::table('vd_user_video_quiz')
+            ->where('video_specific_id', $video_specific_id)
             ->where('user_id', $user->user_id)
+            ->where('quiz_id', $quiz_id)
+            ->where('answer_id', $answer_id)
             ->get();
 
-        $video->quiz_user_lists = $quiz_user_lists;
+        if(!empty($check)) {
+            DB::table('vd_user_video_quiz')->where('video_specific_id', $video_specific_id)
+                ->where('user_id', $user->user_id)
+                ->where('quiz_id', $quiz_id)
+                ->where('answer_id', $answer_id)
+                ->update([
+                    'correct_flag' => $correct_flag == "true" ? true : false,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                    'updated_by' => $user->user_id,
+            ]);
 
-        $output['video'] = $video;
+        } else {
+            DB::table('vd_user_video_quiz')->insert([
+                'user_id' => $user->user_id,
+                'video_specific_id' => $video_specific_id,
+                'quiz_id' => $quiz_id,
+                'answer_id' => $answer_id,
+                'correct_flag' => $correct_flag == "true" ? true : false,
+                'created_at' => date('Y-m-d H:i:s'),
+                'created_by' => $user->user_id,
+                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_by' => $user->user_id,
+            ]);
+        }
 
-        return successResponse(null, $output);
+        return;
     }
 
 }

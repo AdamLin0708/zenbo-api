@@ -45,7 +45,7 @@ class VideoController extends Controller
 
         $request = Request::all();
 
-        Log::info($request);
+        VideoRepo::submitVideoQuiz($request);
 
         return "";
     }

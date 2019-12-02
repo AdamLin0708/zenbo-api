@@ -43,12 +43,10 @@ class VideoController extends Controller
 
     public function submitVideoQuiz(){
 
-        $user = JWTAuth::parseToken()->toUser();
-
         $request = Request::all();
 
-        $output = VideoRepo::submitVideoQuiz($request, $user);
+        Log::info($request);
 
-        return $output;
+        return "";
     }
 }
